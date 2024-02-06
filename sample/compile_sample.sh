@@ -10,6 +10,8 @@ USE_TPU_IVE="${USE_TPU_IVE:-ON}"
 CHIP_ARCH="${CHIP_ARCH:-CV180X}"
 SDK_VER="${SDK_VER:-musl_riscv64}"
 
+CLEAN=$1
+
 echo "enter compile_sample.sh !!!"
 echo "MW_PATH: $MW_PATH"
 echo "TPU_PATH: $TPU_PATH"
@@ -26,8 +28,13 @@ MAKE_OPTS=("KERNEL_ROOT=$KERNEL_ROOT" "MW_PATH=$MW_PATH" "TPU_PATH=$TPU_PATH"
 
 build_and_clean() {
     pushd $1 || exit 1
-    make "${MAKE_OPTS[@]}" || exit 1
-    make clean || exit 1
+
+    if [ "$CLEAN" = "clean" ]; then
+        make clean || exit 1
+    else
+        make "${MAKE_OPTS[@]}" || exit 1
+    fi
+
     echo "$1 done"
     popd
 }
@@ -43,3 +50,4 @@ if [ -d "${CURRENT_DIR}/cvi_draw_rect" ]; then
 fi
 
 echo "finish build sample!!!"
+

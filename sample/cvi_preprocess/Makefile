@@ -50,8 +50,7 @@ LDFLAGS = -mcpu=c906fdv
 else ifeq ($(SDK_VER), musl_riscv64)
 ARCH=riscv64
 CROSS_COMPILE = $(CROSS_COMPILE_RISCV64_MUSL)
-CFLAGS += -march=rv64imafd
-LDFLAGS = -mcpu=c906fdv
+CFLAGS += -mcpu=c906fdv -march=rv64imafdcv0p7xthead -mcmodel=medany -mabi=lp64d
 else
 $(error "Unknown SDK_VER: $(SDK_VER")")
 endif

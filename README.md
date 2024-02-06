@@ -43,6 +43,33 @@ Cvitek 所提供的 TDL（Turnkey Deep Learning）集成算法，用以缩短应
 </tbody>
 </table>
 
+## Compilation
+
+### 1. Download toolchain
+
+```
+wget https://sophon-file.sophon.cn/sophon-prod-s3/drive/23/03/07/16/host-tools.tar.gz
+tar xvf host-tools.tar.gz
+cd host-tools
+export PATH=$PATH:$(pwd)/gcc/riscv64-linux-musl-x86_64/bin
+```
+
+### 2. Compile cvitek-tdl-sdk
+
+```
+git clone https://github.com/milkv-duo/cvitek-tdl-sdk-cv181x.git
+cd cvitek-tdl-sdk-cv181x
+cd sample
+./compile_sample.sh
+```
+
+The generated program is in the corresponding subdirectory in the sample directory.
+
+For clean:
+```
+./compile_sample.sh clean
+```
+
 ## Reference link
 
 [https://developer.sophgo.com/thread/556.html](https://developer.sophgo.com/thread/556.html)
