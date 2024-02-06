@@ -57,8 +57,8 @@ export PATH=$PATH:$(pwd)/gcc/riscv64-linux-musl-x86_64/bin
 ### 2. Compile cvitek-tdl-sdk
 
 ```
-git clone https://github.com/milkv-duo/cvitek-tdl-sdk-cv181x.git
-cd cvitek-tdl-sdk-cv181x
+git clone https://github.com/milkv-duo/cvitek-tdl-sdk-sg200x.git
+cd cvitek-tdl-sdk-sg200x
 cd sample
 ./compile_sample.sh
 ```
