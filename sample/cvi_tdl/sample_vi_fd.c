@@ -22,6 +22,8 @@ static volatile bool bExit = false;
 
 static cvtdl_face_t g_stFaceMeta = {0};
 
+static uint32_t g_size = 0;
+
 MUTEXAUTOLOCK_INIT(ResultMutex);
 
 typedef struct {
@@ -96,7 +98,11 @@ void *run_tdl_thread(void *pHandle) {
       goto inf_error;
     }
 
-    printf("face count: %d\n", stFaceMeta.size);
+    if (stFaceMeta.size != g_size) {
+        printf("face count: %d\n", stFaceMeta.size);
+        g_size = stFaceMeta.size;
+    }
+
     {
       MutexAutoLock(ResultMutex, lock);
       CVI_TDL_CopyFaceMeta(&stFaceMeta, &g_stFaceMeta);
