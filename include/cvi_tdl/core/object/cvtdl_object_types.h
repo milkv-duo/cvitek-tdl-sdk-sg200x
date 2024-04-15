@@ -355,6 +355,13 @@ typedef struct {
   cvtdl_object_info_t *info;
 } cvtdl_object_t;
 
+typedef struct {
+  uint32_t size;
+  uint32_t width;
+  uint32_t height;
+
+  VIDEO_FRAME_INFO_S *dstframe;
+} cvtdl_sr_feature;
 // consumer line
 typedef struct {
   float A_x;
@@ -394,6 +401,10 @@ typedef struct {
   uint32_t num_preserved_classes;
 } cvtdl_class_filter_t;
 
+typedef struct {
+  float *out_feature;
+  int feature_dim;
+} cvtdl_clip_feature;
 /** @struct cvtdl_handpose21_meta_t
  * @ingroup core_cvitdlcore
  * @brief A structure to describe hand keypoint.
@@ -498,6 +509,18 @@ typedef struct {
   int stride_len;
   uint32_t cls;
 } YoloAlgParam;
+
+typedef struct {
+  int win_len;
+  int num_fft;
+  int hop_len;
+  int sample_rate;
+  int time_len;
+  int num_mel;
+  int fmin;
+  int fmax;
+  bool fix;
+} AudioAlgParam;
 
 /** @struct VpssPreParam
  *  @ingroup core_cvitdlcore

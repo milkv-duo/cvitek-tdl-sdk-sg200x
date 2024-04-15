@@ -444,6 +444,18 @@ typedef struct _BITMAP_S {
 	CVI_VOID * ATTRIBUTE pData;
 } BITMAP_S;
 
+typedef struct _GRID_INFO_ATTR_S {
+	CVI_BOOL Enable;
+	char gridFileName[128];
+	char gridBindName[128];
+	CVI_BOOL isBlending;
+	CVI_BOOL bEISEnable; /* enable EIS */
+	uint8_t homoRgnNum;
+#if 0
+	HOMOGRAPH_REGION_S homo_regions[GDC_MAX_REGION_NUM];
+#endif
+} GRID_INFO_ATTR_S;
+
 /*
  *
  * s32CenterXOffset: RW; Range: [-511, 511], horizontal offset of the image distortion center relative to image center
@@ -460,6 +472,7 @@ typedef struct _LDC_ATTR_S {
 	CVI_S32 s32CenterXOffset;
 	CVI_S32 s32CenterYOffset;
 	CVI_S32 s32DistortionRatio;
+	GRID_INFO_ATTR_S stGridInfoAttr;
 } LDC_ATTR_S;
 // -------- If you want to change these interfaces, please contact the isp team. --------
 

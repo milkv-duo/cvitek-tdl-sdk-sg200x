@@ -18,10 +18,10 @@ extern "C" {
 
 #include "linux/cvi_base.h"
 
-#define CVI_CHIP_NAME "CV180X"
+#define CVI_CHIP_NAME "CV181X"
 
-#ifndef __CV180X__
-#define __CV180X__
+#ifndef __CV181X__
+#define __CV181X__
 #endif
 
 #define CVI_CHIP_TEST  0x0
@@ -52,9 +52,7 @@ extern "C" {
 
 #define IS_CHIP_PKG_TYPE_QFN(x) (((x) == E_CHIPID_CV1820A) || ((x) == E_CHIPID_CV1821A) \
 						|| ((x) == E_CHIPID_CV1822A) || ((x) == E_CHIPID_CV1810C) \
-						|| ((x) == E_CHIPID_CV1811C) || ((x) == E_CHIPID_CV1812C) \
-						|| ((x) == E_CHIPID_CV1800B) || ((x) == E_CHIPID_CV1801B) \
-						|| ((x) == E_CHIPID_CV1800C) || ((x) == E_CHIPID_CV1801C))
+						|| ((x) == E_CHIPID_CV1811C) || ((x) == E_CHIPID_CV1812C))
 
 #define MMF_VER_PRIX "_MMF_V"
 
@@ -211,9 +209,9 @@ extern "C" {
 #define RGN_MOSAIC_MAX_Y          (RGN_MOSAIC_MAX_HEIGHT - RGN_MOSAIC_MIN_HEIGHT)
 
 // vpss rgn define
-#define RGN_MAX_LAYER_VPSS        1
+#define RGN_MAX_LAYER_VPSS        2
 #define RGN_ODEC_LAYER_VPSS       0
-#define RGN_NORMAL_LAYER_VPSS     0
+#define RGN_NORMAL_LAYER_VPSS     1
 #define RGN_MAX_NUM_VPSS          8
 #define RGN_EX_MAX_NUM_VPSS       16
 #define RGN_EX_MAX_WIDTH          2880
@@ -256,25 +254,25 @@ extern "C" {
 
 #define VI_DEV_MIN_WIDTH        120
 #define VI_DEV_MIN_HEIGHT       120
-#define VI_DEV_MAX_WIDTH        4608
-#define VI_DEV_MAX_HEIGHT       4608
+#define VI_DEV_MAX_WIDTH        2688
+#define VI_DEV_MAX_HEIGHT       1944
 #define VI_FPN_MAX_WIDTH        4096
 #define VI_FPN_MAX_HEIGHT       VI_DEV_MAX_HEIGHT
 
 #define VI_PIPE_OFFLINE_MIN_WIDTH           120
 #define VI_PIPE_OFFLINE_MIN_HEIGHT          120
-#define VI_PIPE_OFFLINE_MAX_WIDTH           4096
-#define VI_PIPE_OFFLINE_MAX_HEIGHT          2160
+#define VI_PIPE_OFFLINE_MAX_WIDTH           2688
+#define VI_PIPE_OFFLINE_MAX_HEIGHT          1944
 
 #define VI_PIPE_ONLINE_MIN_WIDTH            120
 #define VI_PIPE_ONLINE_MIN_HEIGHT           120
 #define VI_PIPE_ONLINE_MAX_WIDTH            2688
 #define VI_PIPE_ONLINE_MAX_HEIGHT           1944
 
-#define VI_PIPE0_MAX_WIDTH                  4096
-#define VI_PIPE0_MAX_HEIGHT                 2160
-#define VI_PIPE1_MAX_WIDTH                  4096
-#define VI_PIPE1_MAX_HEIGHT                 2160
+#define VI_PIPE0_MAX_WIDTH                  2688
+#define VI_PIPE0_MAX_HEIGHT                 1944
+#define VI_PIPE1_MAX_WIDTH                  2688
+#define VI_PIPE1_MAX_HEIGHT                 1944
 #define VI_PIPE2_MAX_WIDTH                  2688
 #define VI_PIPE2_MAX_HEIGHT                 1944
 #define VI_PIPE3_MAX_WIDTH                  2688
@@ -286,13 +284,13 @@ extern "C" {
 
 #define VI_PHYCHN_OFFLINE_MIN_WIDTH         120
 #define VI_PHYCHN_OFFLINE_MIN_HEIGHT        120
-#define VI_PHYCHN_OFFLINE_MAX_WIDTH         4608
-#define VI_PHYCHN_OFFLINE_MAX_HEIGHT        4608
+#define VI_PHYCHN_OFFLINE_MAX_WIDTH         2688
+#define VI_PHYCHN_OFFLINE_MAX_HEIGHT        1944
 
 #define VI_PHYCHN_ONLINE_MIN_WIDTH          120
 #define VI_PHYCHN_ONLINE_MIN_HEIGHT         120
-#define VI_PHYCHN_ONLINE_MAX_WIDTH          2048
-#define VI_PHYCHN_ONLINE_MAX_HEIGHT         4608
+#define VI_PHYCHN_ONLINE_MAX_WIDTH          2688
+#define VI_PHYCHN_ONLINE_MAX_HEIGHT         1944
 
 #define VI_CMP_PARAM_SIZE                   152
 

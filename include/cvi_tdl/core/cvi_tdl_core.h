@@ -166,8 +166,13 @@ typedef void *cvitdl_handle_t;
   CVI_TDL_NAME_WRAP(CVI_TDL_SUPPORTED_MODEL_LP_RECONGNITION)                  \
   CVI_TDL_NAME_WRAP(CVI_TDL_SUPPORTED_MODEL_LP_DETECTION)                     \
   CVI_TDL_NAME_WRAP(CVI_TDL_SUPPORTED_MODEL_IMAGE_CLASSIFICATION)             \
+  CVI_TDL_NAME_WRAP(CVI_TDL_SUPPORTED_MODEL_RAW_IMAGE_CLASSIFICATION)         \
   CVI_TDL_NAME_WRAP(CVI_TDL_SUPPORTED_MODEL_HRNET_POSE)                       \
   CVI_TDL_NAME_WRAP(CVI_TDL_SUPPORTED_MODEL_DMSLANDMARKERDET)                 \
+  CVI_TDL_NAME_WRAP(CVI_TDL_SUPPORTED_MODEL_CLIP)                             \
+  CVI_TDL_NAME_WRAP(CVI_TDL_SUPPORTED_MODEL_YOLOV8_HARDHAT)                   \                       
+  CVI_TDL_NAME_WRAP(CVI_TDL_SUPPORTED_MODEL_SUPER_RESOLUTION)                 \
+  CVI_TDL_NAME_WRAP(CVI_TDL_SUPPORTED_MODEL_OCR_DETECTION)                 \
 // clang-format on
 
 #define CVI_TDL_NAME_WRAP(x) x,
@@ -214,7 +219,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_CreateHandle(cvitdl_handle_t *handle);
  * @return int Return CVI_TDL_SUCCESS if succeed.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_CreateHandle2(cvitdl_handle_t *handle, const VPSS_GRP vpssGroupId,
-                                        const CVI_U8 vpssDev);
+                                         const CVI_U8 vpssDev);
 
 DLL_EXPORT CVI_S32 CVI_TDL_CreateHandle3(cvitdl_handle_t *handle);
 
@@ -235,7 +240,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_DestroyHandle(cvitdl_handle_t handle);
  * @return int Return CVI_TDL_SUCCESS if load model succeed.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_OpenModel(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                    const char *filepath);
+                                     const char *filepath);
 
 /**
  * @brief Get set model path from supported models.
@@ -244,7 +249,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_OpenModel(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_M
  * @param model Supported model id.
  * @return model path.
  */
-DLL_EXPORT const char *CVI_TDL_GetModelPath(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model);
+DLL_EXPORT const char *CVI_TDL_GetModelPath(cvitdl_handle_t handle,
+                                            CVI_TDL_SUPPORTED_MODEL_E model);
 
 /**
  * @brief Set skip vpss preprocess for supported networks.
@@ -255,7 +261,7 @@ DLL_EXPORT const char *CVI_TDL_GetModelPath(cvitdl_handle_t handle, CVI_TDL_SUPP
  * @return int Return CVI_TDL_SUCCESS if load model succeed.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_SetSkipVpssPreprocess(cvitdl_handle_t handle,
-                                                CVI_TDL_SUPPORTED_MODEL_E model, bool skip);
+                                                 CVI_TDL_SUPPORTED_MODEL_E model, bool skip);
 
 /**
  * @brief Set skip vpss preprocess for supported networks.
@@ -266,7 +272,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_SetSkipVpssPreprocess(cvitdl_handle_t handle,
  * @return int Return CVI_TDL_SUCCESS if load model succeed.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_SetPerfEvalInterval(cvitdl_handle_t handle,
-                                              CVI_TDL_SUPPORTED_MODEL_E config, int interval);
+                                               CVI_TDL_SUPPORTED_MODEL_E config, int interval);
 
 /**
  * @brief Set list depth for VPSS.
@@ -278,7 +284,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_SetPerfEvalInterval(cvitdl_handle_t handle,
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_SetVpssDepth(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                       uint32_t input_id, uint32_t depth);
+                                        uint32_t input_id, uint32_t depth);
 
 /**
  * @brief Get list depth for VPSS.
@@ -290,7 +296,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_SetVpssDepth(cvitdl_handle_t handle, CVI_TDL_SUPPORTE
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_GetVpssDepth(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                       uint32_t input_id, uint32_t *depth);
+                                        uint32_t input_id, uint32_t *depth);
 
 /**
  * @brief Get skip preprocess value for given supported model.
@@ -301,7 +307,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_GetVpssDepth(cvitdl_handle_t handle, CVI_TDL_SUPPORTE
  * @return int Return CVI_TDL_SUCCESS.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_GetSkipVpssPreprocess(cvitdl_handle_t handle,
-                                                CVI_TDL_SUPPORTED_MODEL_E model, bool *skip);
+                                                 CVI_TDL_SUPPORTED_MODEL_E model, bool *skip);
 
 /**
  * @brief Set the threshold of an TDL inference.
@@ -311,8 +317,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_GetSkipVpssPreprocess(cvitdl_handle_t handle,
  * @param threshold Threshold in float, usually a number between 0 and 1.
  * @return int Return CVI_TDL_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_SetModelThreshold(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                            float threshold);
+DLL_EXPORT CVI_S32 CVI_TDL_SetModelThreshold(cvitdl_handle_t handle,
+                                             CVI_TDL_SUPPORTED_MODEL_E model, float threshold);
 
 /**
  * @brief Set the nms threshold of yolo inference.
@@ -323,7 +329,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_SetModelThreshold(cvitdl_handle_t handle, CVI_TDL_SUP
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_SetModelNmsThreshold(cvitdl_handle_t handle,
-                                               CVI_TDL_SUPPORTED_MODEL_E model, float threshold);
+                                                CVI_TDL_SUPPORTED_MODEL_E model, float threshold);
 
 /**
  * @brief Get the threshold of an TDL Inference
@@ -333,8 +339,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_SetModelNmsThreshold(cvitdl_handle_t handle,
  * @param threshold Threshold in float.
  * @return int Return CVI_TDL_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_GetModelThreshold(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                            float *threshold);
+DLL_EXPORT CVI_S32 CVI_TDL_GetModelThreshold(cvitdl_handle_t handle,
+                                             CVI_TDL_SUPPORTED_MODEL_E model, float *threshold);
 
 /**
  * @brief Get the nms threshold of yolo Inference
@@ -345,7 +351,18 @@ DLL_EXPORT CVI_S32 CVI_TDL_GetModelThreshold(cvitdl_handle_t handle, CVI_TDL_SUP
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_GetModelNmsThreshold(cvitdl_handle_t handle,
-                                               CVI_TDL_SUPPORTED_MODEL_E model, float *threshold);
+                                                CVI_TDL_SUPPORTED_MODEL_E model, float *threshold);
+
+/**
+ * @brief Use the mmap in model
+ *
+ * @param handle An TDL SDK handle.
+ * @param model Supported model id.
+ * @param mmap mmap in bool.
+ * @return int Return CVI_TDL_SUCCESS on success.
+ */
+DLL_EXPORT CVI_S32 CVI_TDL_UseMmap(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
+                                   bool mmap);
 /**
  * @brief Set different vpss thread for each model. Vpss group id is not thread safe. We recommended
  * to change a thread if the process is not sequential.
@@ -357,7 +374,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_GetModelNmsThreshold(cvitdl_handle_t handle,
  * @return int Return CVI_TDL_SUCCESS if successfully changed.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_SetVpssThread(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                        const uint32_t thread);
+                                         const uint32_t thread);
 
 /**
  * @brief Set different vpss thread for each model. Vpss group id is not thread safe. We recommended
@@ -373,8 +390,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_SetVpssThread(cvitdl_handle_t handle, CVI_TDL_SUPPORT
  * @return int Return CVI_TDL_SUCCESS if successfully changed.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_SetVpssThread2(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                         const uint32_t thread, const VPSS_GRP vpssGroupId,
-                                         const CVI_U8 dev);
+                                          const uint32_t thread, const VPSS_GRP vpssGroupId,
+                                          const CVI_U8 dev);
 
 /**
  * @brief Get the set thread index for given supported model.
@@ -385,7 +402,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_SetVpssThread2(cvitdl_handle_t handle, CVI_TDL_SUPPOR
  * @return int Return CVI_TDL_SUCCESS.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_GetVpssThread(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                        uint32_t *thread);
+                                         uint32_t *thread);
 
 /**
  * @brief Set VB pool id to VPSS in TDLSDK. By default, VPSS in TDLSDK acquires VB from all
@@ -461,8 +478,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_CloseModel(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_
  * @return int Return CVI_TDL_SUCCESS on success, CVI_TDL_FAILURE if exporting not supported.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_GetVpssChnConfig(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                           const CVI_U32 frameWidth, const CVI_U32 frameHeight,
-                                           const CVI_U32 idx, cvtdl_vpssconfig_t *chnConfig);
+                                            const CVI_U32 frameWidth, const CVI_U32 frameHeight,
+                                            const CVI_U32 idx, cvtdl_vpssconfig_t *chnConfig);
 
 /**@}*/
 
@@ -481,7 +498,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_GetVpssChnConfig(cvitdl_handle_t handle, CVI_TDL_SUPP
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_RetinaFace(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                     cvtdl_face_t *faces);
+                                      cvtdl_face_t *faces);
 
 /**
  * @brief ScrFD face detection.
@@ -492,10 +509,10 @@ DLL_EXPORT CVI_S32 CVI_TDL_RetinaFace(const cvitdl_handle_t handle, VIDEO_FRAME_
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_ScrFDFace(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                    cvtdl_face_t *faces);
+                                     cvtdl_face_t *faces);
 
 DLL_EXPORT CVI_S32 CVI_TDL_FLDet3(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                 cvtdl_face_t *faces);
+                                  cvtdl_face_t *faces);
 /**
  * @brief RetinaFaceIR face detection.
  *
@@ -505,7 +522,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_FLDet3(const cvitdl_handle_t handle, VIDEO_FRAME_INFO
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_RetinaFace_IR(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                        cvtdl_face_t *faces);
+                                         cvtdl_face_t *faces);
 /**
  * @brief RetinaFace hardhat face detection.
  *
@@ -514,8 +531,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_RetinaFace_IR(const cvitdl_handle_t handle, VIDEO_FRA
  * @param faces Output detect result. The name, bbox, and face points will be given.
  * @return int Return CVI_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_RetinaFace_Hardhat(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                             cvtdl_face_t *faces);
+DLL_EXPORT CVI_S32 CVI_TDL_RetinaFace_Hardhat(const cvitdl_handle_t handle,
+                                              VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *faces);
 
 /**
  * @brief Detect face with thermal images.
@@ -526,7 +543,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_RetinaFace_Hardhat(const cvitdl_handle_t handle, VIDE
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_ThermalFace(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                      cvtdl_face_t *faces);
+                                       cvtdl_face_t *faces);
 
 /**
  * @brief Detect person with thermal images.
@@ -537,7 +554,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_ThermalFace(const cvitdl_handle_t handle, VIDEO_FRAME
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_ThermalPerson(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                        cvtdl_object_t *obj);
+                                         cvtdl_object_t *obj);
 
 /**
  * @brief Detect face with mask score.
@@ -547,8 +564,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_ThermalPerson(const cvitdl_handle_t handle, VIDEO_FRA
  * @param face_meta Output detect result. The bbox will be given.
  * @return int Return CVI_TDL_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_FaceMaskDetection(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                            cvtdl_face_t *face_meta);
+DLL_EXPORT CVI_S32 CVI_TDL_FaceMaskDetection(const cvitdl_handle_t handle,
+                                             VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *face_meta);
 /**@}*/
 
 /**
@@ -566,7 +583,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_FaceMaskDetection(const cvitdl_handle_t handle, VIDEO
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_FaceAttribute(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                        cvtdl_face_t *faces);
+                                         cvtdl_face_t *faces);
 
 /**
  * @brief Do face recognition and attribute with bbox info stored in faces. Only do inference on the
@@ -579,7 +596,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_FaceAttribute(const cvitdl_handle_t handle, VIDEO_FRA
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_FaceAttributeOne(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                           cvtdl_face_t *faces, int face_idx);
+                                            cvtdl_face_t *faces, int face_idx);
 
 /**
  * @brief Do face recognition with bbox info stored in faces.
@@ -590,7 +607,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_FaceAttributeOne(const cvitdl_handle_t handle, VIDEO_
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_FaceRecognition(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                          cvtdl_face_t *faces);
+                                           cvtdl_face_t *faces);
 
 /**
  * @brief Do face recognition with bbox info stored in faces. Only do inference on the given index
@@ -611,12 +628,13 @@ DLL_EXPORT CVI_S32 CVI_TDL_FaceRecognition(const cvitdl_handle_t handle, VIDEO_F
  * @param p_face_info, if no data in p_face_info,p_rgb_pack means aligned packed rgb data
  * @return int Return CVI_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_FaceFeatureExtract(const cvitdl_handle_t handle, const uint8_t *p_rgb_pack,
-                                             int width, int height, int stride,
-                                             cvtdl_face_info_t *p_face_info);
+DLL_EXPORT CVI_S32 CVI_TDL_FaceFeatureExtract(const cvitdl_handle_t handle,
+                                              const uint8_t *p_rgb_pack, int width, int height,
+                                              int stride, cvtdl_face_info_t *p_face_info);
 
-DLL_EXPORT CVI_S32 CVI_TDL_FaceRecognitionOne(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                             cvtdl_face_t *faces, int face_idx);
+DLL_EXPORT CVI_S32 CVI_TDL_FaceRecognitionOne(const cvitdl_handle_t handle,
+                                              VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *faces,
+                                              int face_idx);
 
 /**
  * @brief Do face recognition with mask wearing.
@@ -627,7 +645,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_FaceRecognitionOne(const cvitdl_handle_t handle, VIDE
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_MaskFaceRecognition(const cvitdl_handle_t handle,
-                                              VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *faces);
+                                               VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *faces);
 
 /**@}*/
 
@@ -648,7 +666,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_MaskFaceRecognition(const cvitdl_handle_t handle,
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_FaceQuality(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                      cvtdl_face_t *face, bool *skip);
+                                       cvtdl_face_t *face, bool *skip);
 
 /**
  * @brief Crop image in given frame.
@@ -660,7 +678,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_FaceQuality(const cvitdl_handle_t handle, VIDEO_FRAME
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_CropImage(VIDEO_FRAME_INFO_S *srcFrame, cvtdl_image_t *dst,
-                                    cvtdl_bbox_t *bbox, bool cvtRGB888);
+                                     cvtdl_bbox_t *bbox, bool cvtRGB888);
 
 /**
  * @brief Crop image (extended) in given frame.
@@ -675,8 +693,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_CropImage(VIDEO_FRAME_INFO_S *srcFrame, cvtdl_image_t
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_CropImage_Exten(VIDEO_FRAME_INFO_S *srcFrame, cvtdl_image_t *dst,
-                                          cvtdl_bbox_t *bbox, bool cvtRGB888, float exten_ratio,
-                                          float *offset_x, float *offset_y);
+                                           cvtdl_bbox_t *bbox, bool cvtRGB888, float exten_ratio,
+                                           float *offset_x, float *offset_y);
 
 /**
  * @brief Crop face image in given frame.
@@ -688,7 +706,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_CropImage_Exten(VIDEO_FRAME_INFO_S *srcFrame, cvtdl_i
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_CropImage_Face(VIDEO_FRAME_INFO_S *srcFrame, cvtdl_image_t *dst,
-                                         cvtdl_face_info_t *face_info, bool align, bool cvtRGB888);
+                                          cvtdl_face_info_t *face_info, bool align, bool cvtRGB888);
 
 /**
  * @brief Liveness. Gives a score to present how real the face is. The score will be low if the face
@@ -702,11 +720,11 @@ DLL_EXPORT CVI_S32 CVI_TDL_CropImage_Face(VIDEO_FRAME_INFO_S *srcFrame, cvtdl_im
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Liveness(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *rgbFrame,
-                                   VIDEO_FRAME_INFO_S *irFrame, cvtdl_face_t *rgb_face,
-                                   cvtdl_face_t *ir_face);
+                                    VIDEO_FRAME_INFO_S *irFrame, cvtdl_face_t *rgb_face,
+                                    cvtdl_face_t *ir_face);
 
 DLL_EXPORT CVI_S32 CVI_TDL_IrLiveness(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *irFrame,
-                                     cvtdl_face_t *ir_face);
+                                      cvtdl_face_t *ir_face);
 
 /**
  * @brief Mask classification. Tells if a face is wearing a mask.
@@ -716,8 +734,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_IrLiveness(const cvitdl_handle_t handle, VIDEO_FRAME_
  * @param face cvtdl_face_t structure, the cvtdl_face_info_t and cvtdl_bbox_t must be set.
  * @return int Return CVI_TDL_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_MaskClassification(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                             cvtdl_face_t *face);
+DLL_EXPORT CVI_S32 CVI_TDL_MaskClassification(const cvitdl_handle_t handle,
+                                              VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *face);
 
 /**
  * @brief Hand classification.
@@ -727,8 +745,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_MaskClassification(const cvitdl_handle_t handle, VIDE
  * @param meta cvtdl_object_t structure.
  * @return int Return CVI_TDL_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_HandClassification(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                             cvtdl_object_t *meta);
+DLL_EXPORT CVI_S32 CVI_TDL_HandClassification(const cvitdl_handle_t handle,
+                                              VIDEO_FRAME_INFO_S *frame, cvtdl_object_t *meta);
 
 /**
  * @brief 2D hand keypoints.
@@ -739,7 +757,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_HandClassification(const cvitdl_handle_t handle, VIDE
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_HandKeypoint(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                       cvtdl_handpose21_meta_ts *meta);
+                                        cvtdl_handpose21_meta_ts *meta);
 
 /**
  * @brief Hand classification by hand keypoints.
@@ -750,8 +768,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_HandKeypoint(const cvitdl_handle_t handle, VIDEO_FRAM
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_HandKeypointClassification(const cvitdl_handle_t handle,
-                                                     VIDEO_FRAME_INFO_S *frame,
-                                                     cvtdl_handpose21_meta_t *meta);
+                                                      VIDEO_FRAME_INFO_S *frame,
+                                                      cvtdl_handpose21_meta_t *meta);
 
 /**
  * @brief Hand Detection. Tells if a object is wearing a mask.
@@ -762,7 +780,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_HandKeypointClassification(const cvitdl_handle_t hand
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Hand_Detection(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                         cvtdl_object_t *obj_meta);
+                                          cvtdl_object_t *obj_meta);
 
 /**
  * @brief Hand Detection. Tells if a object is wearing a mask.
@@ -773,7 +791,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_Hand_Detection(const cvitdl_handle_t handle, VIDEO_FR
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_HeadPerson_Detection(const cvitdl_handle_t handle,
-                                               VIDEO_FRAME_INFO_S *frame, cvtdl_object_t *obj_meta);
+                                                VIDEO_FRAME_INFO_S *frame,
+                                                cvtdl_object_t *obj_meta);
 
 /**@}*/
 
@@ -793,8 +812,9 @@ DLL_EXPORT CVI_S32 CVI_TDL_HeadPerson_Detection(const cvitdl_handle_t handle,
  * @param ... class indexs
  * @return int Return CVI_TDL_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_SelectDetectClass(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                            uint32_t num_classes, ...);
+DLL_EXPORT CVI_S32 CVI_TDL_SelectDetectClass(cvitdl_handle_t handle,
+                                             CVI_TDL_SUPPORTED_MODEL_E model, uint32_t num_classes,
+                                             ...);
 
 /**
  * @brief MobileDetV2 Vehicle object detectior, which can be used to detect "car", "truck", and
@@ -806,7 +826,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_SelectDetectClass(cvitdl_handle_t handle, CVI_TDL_SUP
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_Vehicle(cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                              cvtdl_object_t *obj);
+                                               cvtdl_object_t *obj);
 
 /**
  * @brief MobileDetV2 pedestrian object detector, which can be used to detect "person" class
@@ -817,7 +837,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_Vehicle(cvitdl_handle_t handle, VIDEO_FRA
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_Pedestrian(cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                                 cvtdl_object_t *obj);
+                                                  cvtdl_object_t *obj);
 
 /**
  * @brief MobileDetV2 object detector, which can be used to detect "person", "bicycle", "car",
@@ -829,7 +849,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_Pedestrian(cvitdl_handle_t handle, VIDEO_
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_Person_Vehicle(cvitdl_handle_t handle,
-                                                     VIDEO_FRAME_INFO_S *frame, cvtdl_object_t *obj);
+                                                      VIDEO_FRAME_INFO_S *frame,
+                                                      cvtdl_object_t *obj);
 
 /**
  * @brief MobileDetV2 object detector, which can be used to detect "person", "cat", and "dog"
@@ -840,8 +861,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_Person_Vehicle(cvitdl_handle_t handle,
  * @param obj Output detect result. The name, bbox, and classes will be given.
  * @return int Return CVI_TDL_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_Person_Pets(cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                                  cvtdl_object_t *obj);
+DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_Person_Pets(cvitdl_handle_t handle,
+                                                   VIDEO_FRAME_INFO_S *frame, cvtdl_object_t *obj);
 
 /**
  * @brief MobileDetV2 object detector which can be used to detect coco 80 classes objects.
@@ -852,7 +873,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_Person_Pets(cvitdl_handle_t handle, VIDEO
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_COCO80(cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                             cvtdl_object_t *obj);
+                                              cvtdl_object_t *obj);
 
 /**
  * @brief Yolov3 object detection.
@@ -863,7 +884,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_MobileDetV2_COCO80(cvitdl_handle_t handle, VIDEO_FRAM
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Yolov3(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                 cvtdl_object_t *obj);
+                                  cvtdl_object_t *obj);
 
 /**
  * @brief Yolov5 object detection.
@@ -874,7 +895,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_Yolov3(const cvitdl_handle_t handle, VIDEO_FRAME_INFO
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Yolov5(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                 cvtdl_object_t *obj);
+                                  cvtdl_object_t *obj);
 
 /**
  * @brief Yolov6 object detection.
@@ -885,7 +906,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_Yolov5(const cvitdl_handle_t handle, VIDEO_FRAME_INFO
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Yolov6(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                 cvtdl_object_t *obj);
+                                  cvtdl_object_t *obj);
 
 /**
  * @brief Yolov7 object detection.
@@ -896,7 +917,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_Yolov6(const cvitdl_handle_t handle, VIDEO_FRAME_INFO
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Yolov7(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                 cvtdl_object_t *obj);
+                                  cvtdl_object_t *obj);
 
 /**
  * @brief Yolo object detection.
@@ -907,7 +928,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_Yolov7(const cvitdl_handle_t handle, VIDEO_FRAME_INFO
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Yolo(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                               cvtdl_object_t *obj);
+                                cvtdl_object_t *obj);
 
 /**
  * @brief YoloX object detection.
@@ -918,7 +939,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_Yolo(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_YoloX(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                cvtdl_object_t *obj);
+                                 cvtdl_object_t *obj);
 
 /**
  * @brief PP-Yoloe object detection.
@@ -929,7 +950,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_YoloX(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_PPYoloE(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                  cvtdl_object_t *obj);
+                                   cvtdl_object_t *obj);
 
 /**@}*/
 /**
@@ -947,7 +968,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_PPYoloE(const cvitdl_handle_t handle, VIDEO_FRAME_INF
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_OSNet(cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                cvtdl_object_t *obj);
+                                 cvtdl_object_t *obj);
 
 /**
  * @brief Do person Re-Id with bbox info stored in obj. Only do inference on the given index of
@@ -960,7 +981,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_OSNet(cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *fra
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_OSNetOne(cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                   cvtdl_object_t *obj, int obj_idx);
+                                    cvtdl_object_t *obj, int obj_idx);
 
 /**@}*/
 
@@ -979,7 +1000,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_OSNetOne(cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_SoundClassification(const cvitdl_handle_t handle,
-                                              VIDEO_FRAME_INFO_S *frame, int *index);
+                                               VIDEO_FRAME_INFO_S *frame, int *index);
 /**
  * @brief Do sound classification.
  *
@@ -989,7 +1010,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_SoundClassification(const cvitdl_handle_t handle,
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_SoundClassification_V2(const cvitdl_handle_t handle,
-                                                 VIDEO_FRAME_INFO_S *frame, int *index);
+                                                  VIDEO_FRAME_INFO_S *frame, int *index);
 /**
  * @brief Get sound classification classes num.
  *
@@ -1008,7 +1029,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_Get_SoundClassification_ClassesNum(const cvitdl_handl
  */
 
 DLL_EXPORT CVI_S32 CVI_TDL_Set_SoundClassification_Threshold(const cvitdl_handle_t handle,
-                                                            const float th);
+                                                             const float th);
 
 /**@}*/
 
@@ -1044,7 +1065,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_GetDefaultConfig(cvtdl_deepsort_config_t *ds
  * @return int Return CVI_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_GetConfig(const cvitdl_handle_t handle,
-                                             cvtdl_deepsort_config_t *ds_conf, int cvitdl_obj_type);
+                                              cvtdl_deepsort_config_t *ds_conf,
+                                              int cvitdl_obj_type);
 
 /**
  * @brief Set DeepSORT with specific config.
@@ -1056,8 +1078,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_GetConfig(const cvitdl_handle_t handle,
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_SetConfig(const cvitdl_handle_t handle,
-                                             cvtdl_deepsort_config_t *ds_conf, int cvitdl_obj_type,
-                                             bool show_config);
+                                              cvtdl_deepsort_config_t *ds_conf, int cvitdl_obj_type,
+                                              bool show_config);
 
 /**
  * @brief clean DeepSORT ID counter.
@@ -1077,7 +1099,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_CleanCounter(const cvitdl_handle_t handle);
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_Obj(const cvitdl_handle_t handle, cvtdl_object_t *obj,
-                                       cvtdl_tracker_t *tracker, bool use_reid);
+                                        cvtdl_tracker_t *tracker, bool use_reid);
 
 /**
  * @brief Run DeepSORT/SORT track for object, add function to judge cross the border.
@@ -1089,9 +1111,9 @@ DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_Obj(const cvitdl_handle_t handle, cvtdl_obje
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_Obj_Cross(const cvitdl_handle_t handle, cvtdl_object_t *obj,
-                                             cvtdl_tracker_t *tracker, bool use_reid,
-                                             const cvtdl_counting_line_t *cross_line_t,
-                                             const randomRect *rect);
+                                              cvtdl_tracker_t *tracker, bool use_reid,
+                                              const cvtdl_counting_line_t *cross_line_t,
+                                              const randomRect *rect);
 
 /**
  * @brief Run DeepSORT/SORT track for object to Consumer counting.
@@ -1107,10 +1129,10 @@ DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_Obj_Cross(const cvitdl_handle_t handle, cvtd
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_Head_FusePed(const cvitdl_handle_t handle, cvtdl_object_t *obj,
-                                                cvtdl_tracker_t *tracker_t, bool use_reid,
-                                                cvtdl_object_t *head, cvtdl_object_t *ped,
-                                                const cvtdl_counting_line_t *counting_line_t,
-                                                const randomRect *rect);
+                                                 cvtdl_tracker_t *tracker_t, bool use_reid,
+                                                 cvtdl_object_t *head, cvtdl_object_t *ped,
+                                                 const cvtdl_counting_line_t *counting_line_t,
+                                                 const randomRect *rect);
 
 /**
  * @brief Run SORT track for face.
@@ -1122,19 +1144,19 @@ DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_Head_FusePed(const cvitdl_handle_t handle, c
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_Face(const cvitdl_handle_t handle, cvtdl_face_t *face,
-                                        cvtdl_tracker_t *tracker);
+                                         cvtdl_tracker_t *tracker);
 
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_FaceFusePed(const cvitdl_handle_t handle, cvtdl_face_t *face,
-                                               cvtdl_object_t *obj, cvtdl_tracker_t *tracker_t);
+                                                cvtdl_object_t *obj, cvtdl_tracker_t *tracker_t);
 
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_Set_Timestamp(const cvitdl_handle_t handle, uint32_t ts);
 
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_UpdateOutNum(const cvitdl_handle_t handle,
-                                                cvtdl_tracker_t *tracker_t);
+                                                 cvtdl_tracker_t *tracker_t);
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_DebugInfo_1(const cvitdl_handle_t handle, char *debug_info);
 
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_GetTracker_Inactive(const cvitdl_handle_t handle,
-                                                       cvtdl_tracker_t *tracker);
+                                                        cvtdl_tracker_t *tracker);
 
 /**@}*/
 
@@ -1154,7 +1176,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_GetTracker_Inactive(const cvitdl_handle_t ha
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_DeeplabV3(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                    VIDEO_FRAME_INFO_S *out_frame, cvtdl_class_filter_t *filter);
+                                     VIDEO_FRAME_INFO_S *out_frame, cvtdl_class_filter_t *filter);
 /**@}*/
 
 /**
@@ -1166,8 +1188,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_DeeplabV3(const cvitdl_handle_t handle, VIDEO_FRAME_I
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_License_Plate_Recognitionv2(const cvitdl_handle_t handle,
-                                                      VIDEO_FRAME_INFO_S *frame,
-                                                      cvtdl_object_t *vehicle);
+                                                       VIDEO_FRAME_INFO_S *frame,
+                                                       cvtdl_object_t *vehicle);
 /**
  * @brief LicensePlateDetection
  *
@@ -1177,19 +1199,19 @@ DLL_EXPORT CVI_S32 CVI_TDL_License_Plate_Recognitionv2(const cvitdl_handle_t han
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_License_Plate_Detectionv2(const cvitdl_handle_t handle,
-                                                    VIDEO_FRAME_INFO_S *frame,
-                                                    cvtdl_object_t *vehicle);
+                                                     VIDEO_FRAME_INFO_S *frame,
+                                                     cvtdl_object_t *vehicle);
 
 /*useless: old license plate detection and recongition*/
 DLL_EXPORT CVI_S32 CVI_TDL_LicensePlateDetection(const cvitdl_handle_t handle,
-                                                VIDEO_FRAME_INFO_S *frame,
-                                                cvtdl_object_t *vehicle_meta);
+                                                 VIDEO_FRAME_INFO_S *frame,
+                                                 cvtdl_object_t *vehicle_meta);
 DLL_EXPORT CVI_S32 CVI_TDL_LicensePlateRecognition_CN(const cvitdl_handle_t handle,
-                                                     VIDEO_FRAME_INFO_S *frame,
-                                                     cvtdl_object_t *vehicle);
+                                                      VIDEO_FRAME_INFO_S *frame,
+                                                      cvtdl_object_t *vehicle);
 DLL_EXPORT CVI_S32 CVI_TDL_LicensePlateRecognition_TW(const cvitdl_handle_t handle,
-                                                     VIDEO_FRAME_INFO_S *frame,
-                                                     cvtdl_object_t *vehicle);
+                                                      VIDEO_FRAME_INFO_S *frame,
+                                                      cvtdl_object_t *vehicle);
 
 /**@}*/
 
@@ -1207,7 +1229,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_LicensePlateRecognition_TW(const cvitdl_handle_t hand
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_AlphaPose(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                    cvtdl_object_t *objects);
+                                     cvtdl_object_t *objects);
 /**@}*/
 
 /**
@@ -1263,7 +1285,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_Set_Fall_FPS(const cvitdl_handle_t handle, float fps)
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_TamperDetection(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                          float *moving_score);
+                                           float *moving_score);
 
 /**
  * @brief Set background frame for motion detection.
@@ -1274,7 +1296,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_TamperDetection(const cvitdl_handle_t handle, VIDEO_F
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Set_MotionDetection_Background(const cvitdl_handle_t handle,
-                                                         VIDEO_FRAME_INFO_S *frame);
+                                                          VIDEO_FRAME_INFO_S *frame);
 
 /**
  * @brief Set ROI frame for motion detection.
@@ -1300,8 +1322,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_Set_MotionDetection_ROI(const cvitdl_handle_t handle,
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_MotionDetection(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                          cvtdl_object_t *objects, uint8_t threshold,
-                                          double min_area);
+                                           cvtdl_object_t *objects, uint8_t threshold,
+                                           double min_area);
 
 /**@}*/
 
@@ -1320,8 +1342,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_MotionDetection(const cvitdl_handle_t handle, VIDEO_F
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 
-DLL_EXPORT CVI_S32 CVI_TDL_EyeClassification(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                            cvtdl_face_t *face);
+DLL_EXPORT CVI_S32 CVI_TDL_EyeClassification(const cvitdl_handle_t handle,
+                                             VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *face);
 
 /**
  * @brief Do yawn classification.
@@ -1332,8 +1354,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_EyeClassification(const cvitdl_handle_t handle, VIDEO
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 
-DLL_EXPORT CVI_S32 CVI_TDL_YawnClassification(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                             cvtdl_face_t *face);
+DLL_EXPORT CVI_S32 CVI_TDL_YawnClassification(const cvitdl_handle_t handle,
+                                              VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *face);
 /**
  * @brief Do face landmark.
  *
@@ -1344,7 +1366,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_YawnClassification(const cvitdl_handle_t handle, VIDE
  */
 
 DLL_EXPORT CVI_S32 CVI_TDL_IncarObjectDetection(const cvitdl_handle_t handle,
-                                               VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *face);
+                                                VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *face);
 
 /**@}*/
 
@@ -1355,7 +1377,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_IncarObjectDetection(const cvitdl_handle_t handle,
 /**@{*/
 
 DLL_EXPORT CVI_S32 CVI_TDL_FaceLandmarker(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                         cvtdl_face_t *face);
+                                          cvtdl_face_t *face);
 
 /**@}*/
 
@@ -1365,8 +1387,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_FaceLandmarker(const cvitdl_handle_t handle, VIDEO_FR
  */
 /**@{*/
 
-DLL_EXPORT CVI_S32 CVI_TDL_FaceLandmarkerDet2(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                             cvtdl_face_t *face);
+DLL_EXPORT CVI_S32 CVI_TDL_FaceLandmarkerDet2(const cvitdl_handle_t handle,
+                                              VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *face);
 
 /**@}*/
 
@@ -1376,7 +1398,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_FaceLandmarkerDet2(const cvitdl_handle_t handle, VIDE
  */
 /**@{*/
 DLL_EXPORT CVI_S32 CVI_TDL_DMSLDet(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                  cvtdl_face_t *face);
+                                   cvtdl_face_t *face);
 
 /**
  * @brief Do smoke classification.
@@ -1388,8 +1410,13 @@ DLL_EXPORT CVI_S32 CVI_TDL_DMSLDet(const cvitdl_handle_t handle, VIDEO_FRAME_INF
  */
 
 DLL_EXPORT CVI_S32 CVI_TDL_SmokeClassification(const cvitdl_handle_t handle,
-                                              VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *face);
+                                               VIDEO_FRAME_INFO_S *frame, cvtdl_face_t *face);
 
+DLL_EXPORT CVI_S32 CVI_TDL_Super_Resolution(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
+                                            cvtdl_sr_feature *srfeature);
+
+DLL_EXPORT CVI_S32 CVI_TDL_OCR_Detection(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
+                                            cvtdl_object_t *srfeature);
 /**
  * @brief Dump model input frame to npz.
  *
@@ -1401,34 +1428,38 @@ DLL_EXPORT CVI_S32 CVI_TDL_SmokeClassification(const cvitdl_handle_t handle,
  */
 /**@}*/
 DLL_EXPORT CVI_S32 CVI_TDL_EnalbeDumpInput(cvitdl_handle_t handle, CVI_TDL_SUPPORTED_MODEL_E model,
-                                          const char *dump_path, bool enable);
+                                           const char *dump_path, bool enable);
 
 DLL_EXPORT CVI_S32 CVI_TDL_CropImage_With_VPSS(const cvitdl_handle_t handle,
-                                              CVI_TDL_SUPPORTED_MODEL_E model,
-                                              VIDEO_FRAME_INFO_S *frame,
-                                              const cvtdl_bbox_t *p_crop_box, cvtdl_image_t *p_dst);
+                                               CVI_TDL_SUPPORTED_MODEL_E model,
+                                               VIDEO_FRAME_INFO_S *frame,
+                                               const cvtdl_bbox_t *p_crop_box,
+                                               cvtdl_image_t *p_dst);
 
 DLL_EXPORT CVI_S32 CVI_TDL_CropResizeImage(const cvitdl_handle_t handle,
-                                          CVI_TDL_SUPPORTED_MODEL_E model_type,
-                                          VIDEO_FRAME_INFO_S *frame, const cvtdl_bbox_t *p_crop_box,
-                                          int dst_width, int dst_height, PIXEL_FORMAT_E enDstFormat,
-                                          VIDEO_FRAME_INFO_S **p_dst_img);
+                                           CVI_TDL_SUPPORTED_MODEL_E model_type,
+                                           VIDEO_FRAME_INFO_S *frame,
+                                           const cvtdl_bbox_t *p_crop_box, int dst_width,
+                                           int dst_height, PIXEL_FORMAT_E enDstFormat,
+                                           VIDEO_FRAME_INFO_S **p_dst_img);
 
 DLL_EXPORT CVI_S32 CVI_TDL_Copy_VideoFrameToImage(VIDEO_FRAME_INFO_S *frame, cvtdl_image_t *p_dst);
 DLL_EXPORT CVI_S32 CVI_TDL_Resize_VideoFrame(const cvitdl_handle_t handle,
-                                            CVI_TDL_SUPPORTED_MODEL_E model,
-                                            VIDEO_FRAME_INFO_S *frame, const int dst_w,
-                                            const int dst_h, PIXEL_FORMAT_E dst_format,
-                                            VIDEO_FRAME_INFO_S **dst_frame);
-DLL_EXPORT CVI_S32 CVI_TDL_Release_VideoFrame(const cvitdl_handle_t handle,
                                              CVI_TDL_SUPPORTED_MODEL_E model,
-                                             VIDEO_FRAME_INFO_S *frame, bool del_frame);
+                                             VIDEO_FRAME_INFO_S *frame, const int dst_w,
+                                             const int dst_h, PIXEL_FORMAT_E dst_format,
+                                             VIDEO_FRAME_INFO_S **dst_frame);
+DLL_EXPORT CVI_S32 CVI_TDL_Release_VideoFrame(const cvitdl_handle_t handle,
+                                              CVI_TDL_SUPPORTED_MODEL_E model,
+                                              VIDEO_FRAME_INFO_S *frame, bool del_frame);
 DLL_EXPORT CVI_S32 CVI_TDL_Change_Img(const cvitdl_handle_t handle,
-                                     CVI_TDL_SUPPORTED_MODEL_E model_type, VIDEO_FRAME_INFO_S *frame,
-                                     VIDEO_FRAME_INFO_S **dst_frame, PIXEL_FORMAT_E enDstFormat);
+                                      CVI_TDL_SUPPORTED_MODEL_E model_type,
+                                      VIDEO_FRAME_INFO_S *frame, VIDEO_FRAME_INFO_S **dst_frame,
+                                      PIXEL_FORMAT_E enDstFormat);
 
 DLL_EXPORT CVI_S32 CVI_TDL_Delete_Img(const cvitdl_handle_t handle,
-                                     CVI_TDL_SUPPORTED_MODEL_E model_type, VIDEO_FRAME_INFO_S *p_f);
+                                      CVI_TDL_SUPPORTED_MODEL_E model_type,
+                                      VIDEO_FRAME_INFO_S *p_f);
 /**
  * @brief person and pet(cat,dog) Detection
  *
@@ -1438,7 +1469,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_Delete_Img(const cvitdl_handle_t handle,
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_PersonPet_Detection(const cvitdl_handle_t handle,
-                                              VIDEO_FRAME_INFO_S *frame, cvtdl_object_t *obj_meta);
+                                               VIDEO_FRAME_INFO_S *frame, cvtdl_object_t *obj_meta);
 
 /**
  * @brief Yolov8 Detection
@@ -1449,7 +1480,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_PersonPet_Detection(const cvitdl_handle_t handle,
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_YOLOV8_Detection(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                           cvtdl_object_t *obj_meta);
+                                            cvtdl_object_t *obj_meta);
 
 /**
  * @brief car,bus,truck,person,bike,motor Detection
@@ -1460,8 +1491,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_YOLOV8_Detection(const cvitdl_handle_t handle, VIDEO_
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_PersonVehicle_Detection(const cvitdl_handle_t handle,
-                                                  VIDEO_FRAME_INFO_S *frame,
-                                                  cvtdl_object_t *obj_meta);
+                                                   VIDEO_FRAME_INFO_S *frame,
+                                                   cvtdl_object_t *obj_meta);
 /**
  * @brief hand,face,person Detection
  *
@@ -1471,8 +1502,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_PersonVehicle_Detection(const cvitdl_handle_t handle,
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_HandFacePerson_Detection(const cvitdl_handle_t handle,
-                                                   VIDEO_FRAME_INFO_S *frame,
-                                                   cvtdl_object_t *obj_meta);
+                                                    VIDEO_FRAME_INFO_S *frame,
+                                                    cvtdl_object_t *obj_meta);
 /**
  * @brief human keypoints detection
  *
@@ -1483,7 +1514,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_HandFacePerson_Detection(const cvitdl_handle_t handle
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Yolov8_Pose(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                      cvtdl_object_t *obj_meta);
+                                       cvtdl_object_t *obj_meta);
 /**
  * @brief human keypoints detection
  *
@@ -1494,7 +1525,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_Yolov8_Pose(const cvitdl_handle_t handle, VIDEO_FRAME
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Simcc_Pose(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                     cvtdl_object_t *obj_meta);
+                                      cvtdl_object_t *obj_meta);
 /**
  * @brief human keypoints detection
  *
@@ -1505,7 +1536,7 @@ DLL_EXPORT CVI_S32 CVI_TDL_Simcc_Pose(const cvitdl_handle_t handle, VIDEO_FRAME_
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Hrnet_Pose(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
-                                     cvtdl_object_t *obj_meta);
+                                      cvtdl_object_t *obj_meta);
 /**
  * @brief image classification
  *
@@ -1515,8 +1546,20 @@ DLL_EXPORT CVI_S32 CVI_TDL_Hrnet_Pose(const cvitdl_handle_t handle, VIDEO_FRAME_
  * @return int Return CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_Image_Classification(const cvitdl_handle_t handle,
-                                               VIDEO_FRAME_INFO_S *frame,
-                                               cvtdl_class_meta_t *obj_meta);
+                                                VIDEO_FRAME_INFO_S *frame,
+                                                cvtdl_class_meta_t *obj_meta);
+
+/**
+ * @brief raw image classification
+ *
+ * @param handle An TDL SDK handle.
+ * @param frame Input video frame.
+ * @param object cvtdl_class_meta_t structure, top 5 class info and score
+ * @return int Return CVI_TDL_SUCCESS on success.
+ */
+DLL_EXPORT CVI_S32 CVI_TDL_Raw_Image_Classification(const cvitdl_handle_t handle,
+                                                    VIDEO_FRAME_INFO_S *frame,
+                                                    cvtdl_class_meta_t *obj_meta);
 
 /**
  * @brief get yolo preprocess param struct
@@ -1525,7 +1568,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_Image_Classification(const cvitdl_handle_t handle,
  * @param model_index Supported model list.
  * @return  YoloPreparam yolo preprocess param struct.
  */
-DLL_EXPORT YoloPreParam CVI_TDL_Get_YOLO_Preparam(const cvitdl_handle_t handle, const CVI_TDL_SUPPORTED_MODEL_E model_index);
+DLL_EXPORT YoloPreParam CVI_TDL_Get_YOLO_Preparam(const cvitdl_handle_t handle,
+                                                  const CVI_TDL_SUPPORTED_MODEL_E model_index);
 
 /**
  * @brief set yolo preprocess param struct
@@ -1535,7 +1579,9 @@ DLL_EXPORT YoloPreParam CVI_TDL_Get_YOLO_Preparam(const cvitdl_handle_t handle, 
  * @param pre_param Yolo preprocess struct
  * @return int Return CVI_TDL_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_Set_YOLO_Preparam(const cvitdl_handle_t handle, const CVI_TDL_SUPPORTED_MODEL_E model_index, YoloPreParam pre_param);
+DLL_EXPORT CVI_S32 CVI_TDL_Set_YOLO_Preparam(const cvitdl_handle_t handle,
+                                             const CVI_TDL_SUPPORTED_MODEL_E model_index,
+                                             YoloPreParam pre_param);
 
 /**
  * @brief get yolo algorithm param struct
@@ -1544,7 +1590,8 @@ DLL_EXPORT CVI_S32 CVI_TDL_Set_YOLO_Preparam(const cvitdl_handle_t handle, const
  * @param model_index Supported model list.
  * @return  YoloAlgparam yolo algorthm param struct.
  */
-DLL_EXPORT YoloAlgParam CVI_TDL_Get_YOLO_Algparam(const cvitdl_handle_t handle, const CVI_TDL_SUPPORTED_MODEL_E model_index);
+DLL_EXPORT YoloAlgParam CVI_TDL_Get_YOLO_Algparam(const cvitdl_handle_t handle,
+                                                  const CVI_TDL_SUPPORTED_MODEL_E model_index);
 
 /**
  * @brief set yolo algorithm param struct
@@ -1554,7 +1601,9 @@ DLL_EXPORT YoloAlgParam CVI_TDL_Get_YOLO_Algparam(const cvitdl_handle_t handle, 
  * @param alg_param Yolo algorithm struct
  * @return int Return CVI_TDL_SUCCESS on success.
  */
-DLL_EXPORT CVI_S32 CVI_TDL_Set_YOLO_Algparam(const cvitdl_handle_t handle, const CVI_TDL_SUPPORTED_MODEL_E model_index, YoloAlgParam alg_param);
+DLL_EXPORT CVI_S32 CVI_TDL_Set_YOLO_Algparam(const cvitdl_handle_t handle,
+                                             const CVI_TDL_SUPPORTED_MODEL_E model_index,
+                                             YoloAlgParam alg_param);
 
 DLL_EXPORT CVI_S32 CVI_TDL_Set_Yolov5_ROI(const cvitdl_handle_t handle, Point_t roi_s);
 /**
@@ -1565,13 +1614,58 @@ DLL_EXPORT CVI_S32 CVI_TDL_Set_Yolov5_ROI(const cvitdl_handle_t handle, Point_t 
  * @int Reture CVI_TDL_SUCCESS on success.
  */
 DLL_EXPORT CVI_S32 CVI_TDL_DeepSORT_Byte(const cvitdl_handle_t handle, cvtdl_object_t *obj,
-                                        cvtdl_tracker_t *tracker, bool use_reid);
+                                         cvtdl_tracker_t *tracker, bool use_reid);
 
 DLL_EXPORT CVI_S32 CVI_TDL_Set_Image_Cls_Param(const cvitdl_handle_t handle,
-                                              VpssPreParam *p_preprocess_cfg);
+                                               VpssPreParam *p_preprocess_cfg);
+DLL_EXPORT CVI_S32 CVI_TDL_Set_Raw_Image_Cls_Param(const cvitdl_handle_t handle,
+                                                   VpssPreParam *p_preprocess_cfg);
 DLL_EXPORT CVI_S32 CVI_TDL_Set_YOLO_Param(const cvitdl_handle_t handle,
-                                         YoloPreParam *p_preprocess_cfg,
-                                         YoloAlgParam *p_yolo_param);
+                                          YoloPreParam *p_preprocess_cfg,
+                                          YoloAlgParam *p_yolo_param);
+
+/**
+ * @brief get frame feature from clip model
+ *
+ * @param frame input image
+ * @param cvtdl_clip_feature save feature and dim, need custom free
+ */
+DLL_EXPORT CVI_S32 CVI_TDL_Clip_Feature(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
+                                        cvtdl_clip_feature *clip_feature);
+
+/**
+ * @brief Yolov8 Hardhat
+ *
+ * @param handle An TDL SDK handle.
+ * @param frame Input video frame.
+ * @param object cvtdl_object_t structure, the cvtdl_object_info_t and cvtdl_bbox_t must be set.
+ * @return int Return CVI_TDL_SUCCESS on success.
+ */
+DLL_EXPORT CVI_S32 CVI_TDL_YOLOV8_Hardhat(const cvitdl_handle_t handle, VIDEO_FRAME_INFO_S *frame,
+                                          cvtdl_object_t *obj_meta);
+
+/**
+ * @brief get audio algorithm param
+ *
+ * @param handle An TDL SDK handle.
+ * @param model_index Supported model list.
+ * @return AudioAlgParam audio algorithm param struct.
+ */
+DLL_EXPORT AudioAlgParam CVI_TDL_Get_Audio_Algparam(const cvitdl_handle_t handle,
+                                                    const CVI_TDL_SUPPORTED_MODEL_E model_index);
+
+/**
+ * @brief set audio algorithm param
+ *
+ * @param handle An TDL SDK handle.
+ * @param model_index Supported model list.
+ * @param audio_param audio algorithm param struct.
+ * @return int Return CVI_TDL_SUCCESS on success.
+ */
+DLL_EXPORT CVI_S32 CVI_TDL_Set_Audio_Algparam(const cvitdl_handle_t handle,
+                                              const CVI_TDL_SUPPORTED_MODEL_E model_index,
+                                              AudioAlgParam audio_param);
+
 #ifdef __cplusplus
 }
 #endif

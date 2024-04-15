@@ -47,7 +47,11 @@ void *run_venc(void *args) {
 
     {
       MutexAutoLock(ResultMutex, lock);
-      CVI_TDL_CopyFaceMeta(&g_stFaceMeta, &stFaceMeta);
+      memset(&stFaceMeta, 0, sizeof(cvtdl_face_t));
+      if (NULL != g_stFaceMeta.info) {
+        CVI_TDL_CopyFaceMeta(&g_stFaceMeta, &stFaceMeta);
+      }
+      CVI_TDL_Free(&g_stFaceMeta);
     }
 
     s32Ret = CVI_TDL_Service_FaceDrawRect(pstArgs->stServiceHandle, &stFaceMeta, &stFrame, false,
@@ -92,6 +96,7 @@ void *run_tdl_thread(void *pHandle) {
       goto get_frame_failed;
     }
 
+    memset(&stFaceMeta, 0, sizeof(cvtdl_face_t));
     s32Ret = CVI_TDL_ScrFDFace(pstTDLHandle, &stFrame, &stFaceMeta);
     if (s32Ret != CVI_TDL_SUCCESS) {
       printf("inference failed!, ret=%x\n", s32Ret);
@@ -105,7 +110,10 @@ void *run_tdl_thread(void *pHandle) {
 
     {
       MutexAutoLock(ResultMutex, lock);
-      CVI_TDL_CopyFaceMeta(&stFaceMeta, &g_stFaceMeta);
+      memset(&g_stFaceMeta, 0, sizeof(cvtdl_face_t));
+      if (NULL != stFaceMeta.info) {
+        CVI_TDL_CopyFaceMeta(&stFaceMeta, &g_stFaceMeta);
+      }
     }
 
   inf_error:
@@ -168,15 +176,15 @@ int main(int argc, char *argv[]) {
 
   // Setup frame size of video encoder to 1080p
   SIZE_S stVencSize = {
-      .u32Width = 1920,
-      .u32Height = 1080,
+      .u32Width = 1280,
+      .u32Height = 720,
   };
 
   stMWConfig.stVBPoolConfig.u32VBPoolCount = 3;
 
   // VBPool 0 for VPSS Grp0 Chn0
   stMWConfig.stVBPoolConfig.astVBPoolSetup[0].enFormat = VI_PIXEL_FORMAT;
-  stMWConfig.stVBPoolConfig.astVBPoolSetup[0].u32BlkCount = 3;
+  stMWConfig.stVBPoolConfig.astVBPoolSetup[0].u32BlkCount = 5;
   stMWConfig.stVBPoolConfig.astVBPoolSetup[0].u32Height = stSensorSize.u32Height;
   stMWConfig.stVBPoolConfig.astVBPoolSetup[0].u32Width = stSensorSize.u32Width;
   stMWConfig.stVBPoolConfig.astVBPoolSetup[0].bBind = true;
@@ -185,7 +193,7 @@ int main(int argc, char *argv[]) {
 
   // VBPool 1 for VPSS Grp0 Chn1
   stMWConfig.stVBPoolConfig.astVBPoolSetup[1].enFormat = VI_PIXEL_FORMAT;
-  stMWConfig.stVBPoolConfig.astVBPoolSetup[1].u32BlkCount = 3;
+  stMWConfig.stVBPoolConfig.astVBPoolSetup[1].u32BlkCount = 5;
   stMWConfig.stVBPoolConfig.astVBPoolSetup[1].u32Height = stVencSize.u32Height;
   stMWConfig.stVBPoolConfig.astVBPoolSetup[1].u32Width = stVencSize.u32Width;
   stMWConfig.stVBPoolConfig.astVBPoolSetup[1].bBind = true;
@@ -194,7 +202,7 @@ int main(int argc, char *argv[]) {
 
   // VBPool 2 for TDL preprocessing
   stMWConfig.stVBPoolConfig.astVBPoolSetup[2].enFormat = PIXEL_FORMAT_BGR_888_PLANAR;
-  stMWConfig.stVBPoolConfig.astVBPoolSetup[2].u32BlkCount = 1;
+  stMWConfig.stVBPoolConfig.astVBPoolSetup[2].u32BlkCount = 3;
   stMWConfig.stVBPoolConfig.astVBPoolSetup[2].u32Height = 720;
   stMWConfig.stVBPoolConfig.astVBPoolSetup[2].u32Width = 1280;
   stMWConfig.stVBPoolConfig.astVBPoolSetup[2].bBind = false;
