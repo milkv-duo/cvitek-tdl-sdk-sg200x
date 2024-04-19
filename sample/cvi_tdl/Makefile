@@ -290,7 +290,7 @@ $(SDK_ROOT_PATH)/sample/utils/%.o: $(SDK_ROOT_PATH)/sample/utils/%.c
 	$(CC) $(DEPFLAGS) $(CFLAGS) -o $@ -c $<
 
 sample_aud_%: $(PWD)/sample_aud_%.o $(SDK_ROOT_PATH)/sample/utils/sample_utils.o
-	$(CXX) $(LDFLAGS) $(SAMPLE_LIBS) $(MW_AUDIO_LIBS) -o $@ $^
+	$(CXX) $(CFLAGS) $(SAMPLE_LIBS) $(MW_AUDIO_LIBS) -o $@ $^
 
 sample_app_%: $(PWD)/sample_app_%.o \
 			  $(SDK_ROOT_PATH)/sample/utils/vi_vo_utils.o \
@@ -308,7 +308,7 @@ sample_vi_%: $(PWD)/sample_vi_%.o \
 	$(CC) $(CFLAGS) $(SAMPLE_APP_LIBS) -o $@ $^
 
 sample_init: $(PWD)/sample_init.o
-	$(CC) $(LDFLAGS) $(SAMPLE_LIBS) -o $@ $^
+	$(CC) $(CFLAGS) $(SAMPLE_LIBS) -o $@ $^
 
 sample_yol%: $(PWD)/sample_yol%.o
 	$(CXX) $(LDFLAGS) $(SAMPLE_READ_LIBS) -o $@ $^
