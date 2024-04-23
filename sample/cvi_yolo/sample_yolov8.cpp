@@ -38,7 +38,7 @@ CVI_S32 init_param(const cvitdl_handle_t tdl_handle) {
   // setup yolo algorithm preprocess
   YoloAlgParam yolov8_param =
       CVI_TDL_Get_YOLO_Algparam(tdl_handle, CVI_TDL_SUPPORTED_MODEL_YOLOV8_DETECTION);
-  yolov8_param.cls = 2;
+  yolov8_param.cls = 80;
 
   printf("setup yolov8 algorithm param \n");
   ret =
