@@ -26,7 +26,10 @@ CVI_S32 get_od_model_info(const char *model_name, CVI_TDL_SUPPORTED_MODEL_E *mod
   } else if (strcmp(model_name, "yolox") == 0) {
     *model_index = CVI_TDL_SUPPORTED_MODEL_YOLOX;
     *inference_func = CVI_TDL_YoloX;
-  } else {
+  } else if (strcmp(model_name, "yolov5") == 0) {
+    *model_index = CVI_TDL_SUPPORTED_MODEL_YOLOV5;
+    *inference_func = CVI_TDL_Yolov5;
+  }else {
     ret = CVI_TDL_FAILURE;
   }
   return ret;
